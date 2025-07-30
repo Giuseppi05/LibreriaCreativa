@@ -3,6 +3,9 @@ package com.LibreriaCreativa.LibreriaCreativa.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,10 +18,12 @@ public class OrderStatus {
     
     @Column(name = "Nombre", nullable = false)
     private String name;
-    
+
+    @CreationTimestamp
     @Column(name = "created_at", nullable = true, updatable = false)
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at", nullable = true)
     private LocalDateTime updatedAt;
     

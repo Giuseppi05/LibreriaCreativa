@@ -6,6 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,9 +32,11 @@ public class Messages {
     @Column(name = "Mensaje", nullable = false)
     private String message;
 
+    @CreationTimestamp
     @Column(name = "created_at", nullable = true, updatable = false)
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at", nullable = true)
     private LocalDateTime updatedAt;
 

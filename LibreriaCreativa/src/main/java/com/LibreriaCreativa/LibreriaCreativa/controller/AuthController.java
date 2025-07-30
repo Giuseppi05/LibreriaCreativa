@@ -36,7 +36,7 @@ public class AuthController {
     private static final String PASSWORD_PATTERN
             = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$";
 
-    @PostMapping(value = "/register", consumes = "application/json")
+    @PostMapping(path = "/register", consumes = "application/json")
     public ResponseEntity<?> registrarUsuario(@RequestBody User user) {
         Map<String, Object> response = new HashMap<>();
 
