@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { PedidoRequest } from '../models/pedido-request';
 import { Observable } from 'rxjs';
 import { PageOrder } from '../models/PageModels/page-order';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class OrderService {
-  private readonly API_URL = 'http://localhost:8080/api/order';
+  private readonly API_URL = `${environment.apiUrl}/order`;
 
   constructor(private http: HttpClient) {}
 

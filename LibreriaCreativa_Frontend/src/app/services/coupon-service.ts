@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Coupon } from '../models/coupon';
 import { PageCoupon } from '../models/PageModels/page-coupon';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CouponService {
-  private readonly API_URL = 'http://localhost:8080/api/coupon';
+  private readonly API_URL = `${environment.apiUrl}/coupon`;
 
   constructor(private http: HttpClient) {}
 

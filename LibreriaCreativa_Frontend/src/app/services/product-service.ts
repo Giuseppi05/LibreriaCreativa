@@ -4,12 +4,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { ProductPage } from '../models/PageModels/page-products';
 import { CatalogFilters } from '../models/PageModels/catalog-filters';
 import { Product } from '../models/product';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private readonly API_URL = 'http://localhost:8080/api/products';
+  private readonly API_URL = `${environment.apiUrl}/products`;
 
   constructor(private http: HttpClient) {}
 

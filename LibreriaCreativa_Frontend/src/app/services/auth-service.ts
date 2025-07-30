@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap, map, catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly API_URL = 'http://localhost:8080';
+  private readonly API_URL = `${environment.apiUrl}/auth`;
 
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
   private isAdminSubject = new BehaviorSubject<boolean>(false);
@@ -19,7 +20,7 @@ export class AuthService {
    * Login user and store token and admin flag.
    */
   login(email: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.API_URL}/api/auth/login`, { email, password }).pipe(
+    return this.http.post<any>(`${this.API_URL}/login`, { email, password }).pipe(
       tap((res) => {
         localStorage.setItem('token', res.token);
         this.isAuthenticatedSubject.next(true);
@@ -33,7 +34,7 @@ export class AuthService {
    */
   register(user: Partial<any>): Observable<{ success: boolean; message?: string }> {
     return this.http.post<{ success: boolean; message?: string }>(
-      `${this.API_URL}/api/auth/register`,
+      `${this.API_URL}/register`,
       user
     );
   }
@@ -79,7 +80,7 @@ export class AuthService {
     }
 
     return this.http.get<{ authenticated: boolean; admin: boolean }>(
-      `${this.API_URL}/api/auth/status`,
+      `${this.API_URL}/status`,
       { headers: { Authorization: `Bearer ${token}` } }
     ).pipe(
       tap((res) => {

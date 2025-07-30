@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Message } from '../models/message';
-import { PageMessages } from '../models/PageModels/page-messages';
+import { PageMessages } from '../models/PageModels/page-messages';4
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MessageService {
-  private readonly API_URL = 'http://localhost:8080/api/messages';
+  private readonly API_URL = `${environment.apiUrl}/messages`;
 
   constructor(private http: HttpClient) {}
 
