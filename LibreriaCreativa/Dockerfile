@@ -8,6 +8,9 @@ COPY pom.xml .
 COPY .mvn .mvn
 COPY mvnw mvnw
 
+# 🔹 Dar permisos de ejecución a mvnw
+RUN chmod +x mvnw
+
 # Descargamos dependencias primero
 RUN ./mvnw dependency:go-offline
 
@@ -23,8 +26,5 @@ WORKDIR /app
 # Copiamos el jar generado desde la etapa de build
 COPY --from=builder /app/target/LibreriaCreativa-0.0.1-SNAPSHOT.jar app.jar
 
-# Exponemos el puerto
 EXPOSE 8080
-
-# Comando de ejecución
 ENTRYPOINT ["java", "-jar", "app.jar"]
