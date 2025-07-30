@@ -1,0 +1,195 @@
+<div *ngIf="product" class="bg-light p-3 p-md-0">
+  <div class="container mt-0 overflow-hidden">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4 m-3">
+      <ol class="breadcrumb breadcrumb-custom">
+        <li class="breadcrumb-item">
+          <a routerLink="/catalog"> <i class="fas fa-bag-shopping me-2"></i>Catalogo </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a
+            [routerLink]="['/catalog']"
+            [queryParams]="{ categorias: product.category?.name}"
+          >
+            {{ product.category?.name }}
+          </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          {{ product.name }}
+        </li>
+      </ol>
+    </nav>
+
+    <div class="row">
+      <!-- Imagen del producto -->
+      <div class="col-lg-6 col-md-6 mb-4">
+        <div
+          class="d-flex justify-content-center align-items-center bg-light rounded p-4"
+          style="min-height: 400px"
+        >
+          <img
+            [src]="product.img"
+            class="img-fluid rounded shadow-sm"
+            style="max-height: 350px; object-fit: contain"
+            alt="Imagen del producto"
+          />
+        </div>
+      </div>
+
+      <!-- Información del producto -->
+      <div class="col-lg-6 col-md-6">
+        <div class="product-info">
+          <h1 class="color-main-text fw-bold mb-3 h1">{{ product.name }}</h1>
+          <p class="mb-3">
+            <span class="fw-bold color-text">Marca:</span>
+            <span class="color-text ms-1">{{ product.marca }}</span>
+          </p>
+          <div class="mb-4">
+            <span class="color-main-text h2">S/. {{ product.precio }}</span>
+          </div>
+          <div class="mb-4">
+            <span class="fw-bold color-text me-2">Stock disponible:</span>
+            <span *ngIf="product.stock === 0" class="badge bg-danger h6"
+              >Sin stock</span
+            >
+            <span
+              *ngIf="product.stock > 0 && product.stock < 5"
+              class="badge bg-warning text-dark h6"
+            >
+              Quedan pocos: {{ product.stock }}
+            </span>
+            <span *ngIf="product.stock >= 5" class="badge bg-success h6">
+              {{ product.stock }} Disponibles
+            </span>
+          </div>
+
+          <!-- Cantidad -->
+          <div class="row g-3 mb-4">
+            <div class="col-auto">
+              <label class="form-label fw-bold color-text">Cantidad:</label>
+              <div class="input-group">
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  (click)="decreaseQuantity()"
+                  [disabled]="product.stock === 0"
+                >
+                  <i class="fas fa-minus"></i>
+                </button>
+                <input
+                  type="number"
+                  class="form-control quantity-input text-center"
+                  [value]="quantity"
+                  min="1"
+                  [max]="product.stock"
+                  readonly
+                  [disabled]="product.stock === 0"
+                />
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  (click)="increaseQuantity()"
+                  [disabled]="product.stock === 0"
+                >
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botones de acción -->
+          <div class="row g-3">
+            <div class="col-md-6">
+              <button
+                class="btn btn-sec text-white bg-sec w-100 py-3"
+                (click)="addToCart()"
+                [disabled]="product.stock === 0"
+              >
+                <i class="fas fa-cart-plus me-2"></i>Agregar al carrito
+              </button>
+            </div>
+            <div class="col-md-6">
+              <button
+                class="btn btn-outline-success-custom w-100 py-3"
+                (click)="buyNow()"
+                [disabled]="product.stock === 0"
+              >
+                <i class="fas fa-bolt me-2"></i>Comprar ahora
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs de información adicional -->
+    <div class="row my-3">
+      <div class="col-12">
+        <ul class="nav nav-tabs product-tabs border-0" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="description-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#description"
+              type="button"
+              role="tab"
+            >
+              Descripción
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="specifications-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#specifications"
+              type="button"
+              role="tab"
+            >
+              Especificaciones
+            </button>
+          </li>
+        </ul>
+
+        <div
+          class="tab-content bg-white p-4 border border-top-0 rounded-bottom"
+        >
+          <!-- Descripción -->
+          <div
+            class="tab-pane fade show active"
+            id="description"
+            role="tabpanel"
+          >
+            <div class="row">
+              <div class="col-12">
+                <p class="color-text leading-relaxed">
+                  {{ product.description }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Especificaciones -->
+          <div class="tab-pane fade" id="specifications" role="tabpanel">
+            <div class="row">
+              <div *ngIf="isSpecsMapEmpty(product.specsMap)" class="col-12">
+                <p class="text-muted">No hay especificaciones disponibles.</p>
+              </div>
+              <div *ngIf="!isSpecsMapEmpty(product.specsMap)" class="col-12">
+                <table class="table table-borderless">
+                  <tbody>
+                    <tr *ngFor="let spec of product.specsMap | keyvalue">
+                      <td class="fw-bold color-text">{{ spec.key }}</td>
+                      <td class="color-text">{{ spec.value }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

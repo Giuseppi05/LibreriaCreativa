@@ -1,0 +1,142 @@
+<form (ngSubmit)="onSubmit()" #registerForm="ngForm" novalidate>
+  <!-- Nombre completo -->
+  <div class="mb-3">
+    <label for="nombreCompleto" class="form-label color-text fw-semibold">
+      Nombre completo
+    </label>
+    <input
+      type="text"
+      id="nombreCompleto"
+      name="name"
+      class="form-control"
+      [(ngModel)]="form.name"
+      placeholder="Nombres y Apellidos"
+      required
+      #nameRef="ngModel"
+    />
+    <div class="text-danger mt-1" *ngIf="nameRef.invalid && nameRef.touched">
+      El nombre es obligatorio.
+    </div>
+  </div>
+
+  <!-- Correo electrónico -->
+  <div class="mb-3">
+    <label for="email" class="form-label color-text fw-semibold">
+      Correo electrónico
+    </label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      class="form-control"
+      [(ngModel)]="form.email"
+      placeholder="Tu correo electrónico"
+      required
+      email
+      #emailRef="ngModel"
+    />
+    <div class="text-danger mt-1" *ngIf="emailRef.invalid && emailRef.touched">
+      <span *ngIf="emailRef.errors?.['required']"
+        >El correo es obligatorio.</span
+      >
+      <span *ngIf="emailRef.errors?.['email']"
+        >Formato de correo inválido.</span
+      >
+    </div>
+  </div>
+
+  <!-- Contraseñas -->
+  <div class="row">
+    <div class="col-md-6 mb-3 position-relative">
+      <label for="password" class="form-label color-text fw-semibold"
+        >Contraseña</label
+      >
+      <div class="input-group">
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="form-control"
+          [(ngModel)]="form.password"
+          placeholder="Contraseña"
+          required
+          minlength="8"
+          #passwordRef="ngModel"
+        />
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          (click)="togglePassword('password')"
+          style="border: var(--bs-border-width) solid var(--bs-border-color);"
+        >
+          <i class="fas fa-eye"></i>
+        </button>
+      </div>
+      <div
+        class="text-danger mt-1"
+        *ngIf="passwordRef.invalid && passwordRef.touched"
+      >
+        <span *ngIf="passwordRef.errors?.['required']"
+          >La contraseña es obligatoria.</span
+        >
+        <span *ngIf="passwordRef.errors?.['minlength']"
+          >Debe tener al menos 8 caracteres.</span
+        >
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-3 position-relative">
+      <label for="confirmPassword" class="form-label color-text fw-semibold"
+        >Confirmar contraseña</label
+      >
+      <div class="input-group">
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          class="form-control"
+          [(ngModel)]="form.confirmPassword"
+          placeholder="Repetir Contraseña"
+          required
+          #confirmPasswordRef="ngModel"
+        />
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          (click)="togglePassword('confirmPassword')"
+          style="border: var(--bs-border-width) solid var(--bs-border-color);"
+        >
+          <i class="fas fa-eye"></i>
+        </button>
+      </div>
+      <div
+        class="text-danger mt-1"
+        *ngIf="confirmPasswordRef.invalid && confirmPasswordRef.touched"
+      >
+        La confirmación es obligatoria.
+      </div>
+    </div>
+  </div>
+
+  <!-- Contraseña no coincide -->
+  <div
+    class="text-danger mt-1"
+    *ngIf="form.confirmPassword && form.password !== form.confirmPassword"
+  >
+    Las contraseñas no coinciden.
+  </div>
+
+  <!-- Error general desde TypeScript -->
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+  <!-- Botón de registro -->
+  <div class="d-grid mt-3">
+    <button
+      type="submit"
+      class="btn bg-sec btn-sec text-white btn-lg fw-semibold"
+      [disabled]="registerForm.invalid || form.password !== form.confirmPassword"
+    >
+      Registrarse
+    </button>
+  </div>
+</form>

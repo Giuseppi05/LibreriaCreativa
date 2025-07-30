@@ -1,0 +1,311 @@
+<div class="container my-4 overflow-hidden">
+  <div class="row mb-3">
+    <div class="col-12">
+      <div class="pb-3 mb-4 border-bottom">
+        <h2 class="color-main-text d-flex align-items-center">
+          <i class="fas fa-credit-card me-3"></i> Finalizar Compra
+        </h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Método de Pago -->
+    <div class="col-lg-7 col-md-12">
+      <div class="card shadow-sm">
+        <div class="card-header bg-main text-white">
+          <h5 class="mb-0">
+            <i class="fas fa-credit-card me-2"></i> Método de Pago
+          </h5>
+        </div>
+        <div class="card-body">
+          <!-- ... igual hasta acá ... -->
+
+          <!-- Selección método -->
+          <div class="mb-4">
+            <label class="form-label color-text fw-bold">
+              Selecciona tu método de pago:
+            </label>
+            <select
+              class="form-select"
+              [(ngModel)]="paymentType"
+              (change)="onPaymentTypeChange()"
+            >
+              <option value="">Seleccionar método</option>
+              <option value="yape">Yape</option>
+              <option value="tarjeta">Tarjeta</option>
+              <option value="contra-entrega">Contra Entrega</option>
+            </select>
+            <div *ngIf="paymentErrors.paymentType" class="text-danger mt-1">
+              {{ paymentErrors.paymentType }}
+            </div>
+          </div>
+
+          <!-- Pago Yape -->
+          <div *ngIf="paymentType === 'yape'" class="bg-light p-4 rounded mb-3">
+            <h6 class="color-main-text mb-3">Pago con Yape</h6>
+            <div class="text-center mb-4">
+              <div class="bg-white p-3 rounded shadow-sm d-inline-block">
+                <img
+                  src="/images/qrYape.jpg"
+                  alt="QR Yape"
+                  class="img-fluid rounded border"
+                  style="max-width: 200px"
+                />
+                <p class="text-muted mt-2 mb-0">
+                  Escanea este código QR con tu app Yape
+                </p>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label color-text fw-bold">
+                Subir comprobante de pago:
+              </label>
+              <input
+                type="file"
+                class="form-control"
+                accept="image/*"
+                (change)="onFileSelected($event)"
+              />
+              <div *ngIf="paymentErrors.selectedFile" class="text-danger mt-1">
+                {{ paymentErrors.selectedFile }}
+              </div>
+            </div>
+            <ng-container *ngTemplateOutlet="pickupTemplate"></ng-container>
+          </div>
+
+          <!-- Pago con Tarjeta -->
+          <div
+            *ngIf="paymentType === 'tarjeta'"
+            class="bg-light p-4 rounded mb-3"
+          >
+            <h6 class="color-main-text mb-3">Pago con Tarjeta</h6>
+            <div class="row">
+              <div class="col-12 mb-3">
+                <label class="form-label color-text fw-bold"
+                  >Número de tarjeta:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="cardNumber"
+                  placeholder="1234 5678 9012 3456"
+                />
+                <div *ngIf="paymentErrors.cardNumber" class="text-danger mt-1">
+                  {{ paymentErrors.cardNumber }}
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label color-text fw-bold">CVV:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="cardCVV"
+                  placeholder="123"
+                />
+                <div *ngIf="paymentErrors.cardCVV" class="text-danger mt-1">
+                  {{ paymentErrors.cardCVV }}
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label color-text fw-bold"
+                  >Fecha de expiración:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="cardExpiry"
+                  placeholder="MM/AA"
+                />
+                <div *ngIf="paymentErrors.cardExpiry" class="text-danger mt-1">
+                  {{ paymentErrors.cardExpiry }}
+                </div>
+              </div>
+            </div>
+            <ng-container *ngTemplateOutlet="pickupTemplate"></ng-container>
+          </div>
+
+          <!-- Pago Contra Entrega -->
+          <div
+            *ngIf="paymentType === 'contra-entrega'"
+            class="bg-light p-4 rounded mb-3"
+          >
+            <h6 class="color-main-text mb-3">Pago Contra Entrega</h6>
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle me-2"></i>
+              Pagarás cuando recibas tu pedido
+            </div>
+            <ng-container
+              *ngTemplateOutlet="shippingAddressTemplate"
+            ></ng-container>
+          </div>
+
+          <!-- Cupón de descuento -->
+          <div class="bg-light p-3 rounded border mb-4">
+            <h6 class="color-main-text mb-3">Cupón de descuento</h6>
+            <div *ngIf="!couponApplied; else couponActivo">
+              <div class="input-group mb-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="couponCode"
+                  placeholder="Ingresa tu código de cupón"
+                />
+                <button
+                  class="btn btn-sec bg-sec text-white"
+                  type="button"
+                  [disabled]="!couponCode.trim()"
+                  (click)="applyCoupon()"
+                >
+                  Aplicar
+                </button>
+              </div>
+              <div *ngIf="couponError" class="text-danger">
+                {{ couponError }}
+              </div>
+            </div>
+            <ng-template #couponActivo>
+              <div
+                class="alert alert-success d-flex justify-content-between align-items-center mb-2"
+              >
+                <div>
+                  <i class="fas fa-check-circle me-2"></i>
+                  Cupón <strong>{{ couponCode }}</strong> aplicado:
+                  <span class="fw-bold text-success">
+                    -S/ {{ discount.toFixed(2) }}
+                  </span>
+                </div>
+                <button
+                  class="btn btn-outline-danger btn-sm"
+                  (click)="removeCoupon()"
+                >
+                  Quitar
+                </button>
+              </div>
+              <small class="text-muted d-block">
+                Solo puedes usar un cupón a la vez
+              </small>
+            </ng-template>
+          </div>
+
+          <!-- Botón Finalizar -->
+          <div class="d-grid gap-2 mt-4">
+            <button
+              class="btn btn-main btn-lg"
+              type="button"
+              (click)="processPayment()"
+            >
+              <i class="fas fa-credit-card me-2"></i> Pagar S/ {{
+              total.toFixed(2) }}
+            </button>
+          </div>
+
+          <!-- Templates reutilizables -->
+          <ng-template #pickupTemplate>
+            <div class="form-check mb-3">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [(ngModel)]="isPickup"
+                (ngModelChange)="onPickupToggle($event)"
+                id="pickup-option"
+              />
+              <label class="form-check-label color-text" for="pickup-option">
+                Recojo en tienda (Gratis)
+              </label>
+            </div>
+            <ng-container *ngIf="!isPickup">
+              <ng-container
+                *ngTemplateOutlet="shippingAddressTemplate"
+              ></ng-container>
+            </ng-container>
+          </ng-template>
+
+          <ng-template #shippingAddressTemplate>
+            <div class="mb-3">
+              <label class="form-label color-text fw-bold"
+                >Dirección de envío:</label
+              >
+              <textarea
+                class="form-control"
+                rows="3"
+                [(ngModel)]="address"
+                placeholder="Ingresa tu dirección completa"
+              ></textarea>
+              <div *ngIf="paymentErrors.address" class="text-danger mt-1">
+                {{ paymentErrors.address }}
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <!-- Resumen del pedido -->
+    <div class="col-lg-5 col-md-12 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-main text-white">
+          <h5 class="mb-0">
+            <i class="fas fa-shopping-cart me-2"></i> Resumen del pedido
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="mb-3" style="max-height: 300px; overflow-y: auto">
+            <div
+              class="d-flex align-items-center mb-3 p-2 bg-light rounded"
+              *ngFor="let product of cart"
+            >
+              <img
+                [src]="product.img"
+                [alt]="product.name"
+                class="me-3 rounded"
+                style="width: 50px; height: 50px; object-fit: cover"
+              />
+              <div class="flex-grow-1">
+                <h6 class="mb-1 color-text">{{ product.name }}</h6>
+                <small class="text-muted"
+                  >Cantidad: {{ product.quantity }}</small
+                >
+              </div>
+              <span class="fw-bold color-text"
+                >S/ {{ (product.price * product.quantity).toFixed(2) }}</span
+              >
+            </div>
+          </div>
+
+          <hr class="my-3" />
+
+          <div class="d-flex justify-content-between mb-2">
+            <span class="color-text">SubTotal:</span>
+            <span class="fw-bold color-text">S/ {{ subtotal.toFixed(2) }}</span>
+          </div>
+
+          <div
+            class="d-flex justify-content-between mb-2"
+            *ngIf="couponApplied"
+          >
+            <span class="color-text">Descuento:</span>
+            <span class="fw-bold text-success"
+              >-S/ {{ discount.toFixed(2) }}</span
+            >
+          </div>
+
+          <div class="d-flex justify-content-between mb-3">
+            <span class="color-text">Envío:</span>
+            <span class="fw-bold color-text"
+              >S/ {{ shippingCost.toFixed(2) }}</span
+            >
+          </div>
+
+          <hr class="my-3" />
+
+          <div class="d-flex justify-content-between mb-3">
+            <span class="h5 color-main-text">Total:</span>
+            <span class="h5 fw-bold color-main-text"
+              >S/ {{ total.toFixed(2) }}</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

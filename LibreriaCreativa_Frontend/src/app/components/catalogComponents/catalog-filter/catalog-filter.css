@@ -1,0 +1,11 @@
+.filter-section {
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    min-height: auto;
+    margin-bottom: 2rem;
+  }
+}

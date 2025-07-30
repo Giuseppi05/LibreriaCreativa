@@ -1,0 +1,16 @@
+<form (ngSubmit)="onSubmit()">
+  <div class="col-12">
+    <div class="input-group">
+      <input
+        type="text"
+        [(ngModel)]="query"
+        name="q"
+        class="form-control search-bar"
+        placeholder="Buscar por nombre, marca o categoría"
+      />
+      <button class="btn btn-sec bg-sec search-btn text-white" type="submit">
+        <i class="fas fa-search me-1"></i> Buscar
+      </button>
+    </div>
+  </div>
+</form>

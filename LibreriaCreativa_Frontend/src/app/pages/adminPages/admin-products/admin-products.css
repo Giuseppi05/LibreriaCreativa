@@ -1,0 +1,10 @@
+.breadcrumb-item a {
+  color: #495057; 
+}
+.breadcrumb-item.active {
+  color: #6c757d;
+}
+.thead-light th {
+  background-color: #e9ecef;
+  border-color: #dee2e6;
+}

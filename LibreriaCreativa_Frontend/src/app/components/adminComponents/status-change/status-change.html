@@ -1,0 +1,41 @@
+<div *ngIf="order && states">
+  <form [formGroup]="statusForm" (ngSubmit)="submit()">
+    <div class="mb-3">
+      <label class="form-label fw-bold">Estado actual</label>
+      <div class="p-2 border rounded bg-light">
+        {{ order.estado.name || 'Sin estado' }}
+      </div>
+    </div>
+    
+    <div class="mb-3">
+      <label class="form-label fw-bold">Nuevo Estado</label>
+      <select class="form-select" formControlName="estadoId" required>
+        <option value="" disabled selected>Seleccione un estado</option>
+        <option *ngFor="let e of states" [value]="e.id">{{ e.name }}</option>
+      </select>
+      <div
+        *ngIf="statusForm.controls['estadoId'].invalid && statusForm.controls['estadoId'].touched"
+        class="text-danger small"
+      >
+        Estado obligatorio.
+      </div>
+    </div>
+
+    <div class="text-end">
+      <button
+        class="btn btn-main"
+        type="submit"
+        [disabled]="statusForm.invalid || loading"
+      >
+        <span *ngIf="!loading">Guardar Cambios</span>
+        <span *ngIf="loading">Guardando...</span>
+      </button>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="!states && !loading" class="alert alert-warning mt-3">
+  No se pudieron cargar los estados.
+</div>
+
+<div *ngIf="error" class="alert alert-danger mt-2">{{ error }}</div>

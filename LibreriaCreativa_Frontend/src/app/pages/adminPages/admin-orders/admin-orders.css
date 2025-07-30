@@ -1,0 +1,16 @@
+.breadcrumb-item a {
+    color: #495057;
+}
+.breadcrumb-item.active {
+    color: #6c757d;
+}
+.table th {
+    vertical-align: middle;
+}
+.table td {
+    vertical-align: middle;
+}
+.thead-light th { 
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}

@@ -1,0 +1,72 @@
+/* Navbar responsive buttons */
+@media (max-width: 991.98px) {
+  .navbar .btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* Quitar flechita del dropdown en mobile */
+  .navbar .dropdown-toggle::after {
+    display: none;
+  }
+}
+
+/* Cart dropdown styles */
+.cart-dropdown {
+  width: 350px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Cart item image */
+.cart-item-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+/* Icon button for navbar (cart, user) */
+.nav-icon-btn {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 50% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: 1px solid #fff;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.nav-icon-btn:focus,
+.nav-icon-btn:active {
+  outline: none;
+  box-shadow: none;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: #ddd;
+}
+
+/* Dropdown position fix for mobile */
+.dropdown-menu {
+  max-width: 90vw;
+  right: auto;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.dropdown-item:focus {
+  background-color: var(--main-color) !important;
+  color: white !important;
+}
+
+
+/* Align dropdown to end on large screens */
+@media (min-width: 992px) {
+  .dropdown-menu.dropdown-menu-responsive-end {
+    left: auto;
+    right: 0;
+    transform: none;
+  }
+}

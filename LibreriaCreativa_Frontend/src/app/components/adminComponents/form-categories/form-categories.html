@@ -1,0 +1,32 @@
+<form (ngSubmit)="submit()" [formGroup]="form">
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <input type="hidden" formControlName="id" />
+
+  <div class="mb-3">
+    <label for="name" class="form-label fw-semibold">Nombre de la categoría</label>
+    <input
+      type="text"
+      id="name"
+      class="form-control"
+      formControlName="name"
+      [ngClass]="{'is-invalid': controlInvalid('name')}"
+      placeholder="Nombre de la categoría"
+      required
+      autofocus
+    />
+    <div *ngIf="controlInvalid('name')" class="invalid-feedback">
+      El nombre es obligatorio.
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="d-flex justify-content-end">
+    <button type="submit" class="btn text-white bg-main" [disabled]="form.invalid">
+      Guardar
+    </button>
+  </div>
+</form>

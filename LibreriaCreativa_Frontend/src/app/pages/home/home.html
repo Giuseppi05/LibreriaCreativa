@@ -1,0 +1,191 @@
+<div>
+  <!-- Hero Section -->
+  <div
+    class="p-0 m-3 d-flex justify-content-center align-items-center flex-column gap-3"
+  >
+    <!-- Barra de búsqueda -->
+    <div class="row mb-3 w-100">
+      <app-searchbar (search)="onSearch($event)" />
+    </div>
+
+    <!-- Banner Section -->
+    <div class="banner vw-100">
+      <div
+        class="banner-content d-flex flex-column justify-content-center align-items-center text-center h-100"
+      >
+        <h1 class="text-white mb-5">Encuentra todo para el regreso a clase</h1>
+        <a routerLink="/catalog" class="btn bg-sec px-4 text-white btn-sec">
+          Ver Catálogo Escolar
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card Section -->
+  <div class="d-flex flex-column justify-content-center align-items-center">
+    <h1 class="color-text mb-5">Explora por categorías</h1>
+    <div class="d-flex flex-wrap justify-content-center gap-4 mb-5">
+      <div class="card" style="width: 18rem">
+        <img
+          src="/images/Libros_de_texto.jpeg"
+          class="card-img-top"
+          alt="Libros de texto"
+        />
+        <div class="card-body">
+          <h5 class="card-title color-text">Libros de texto</h5>
+          <p class="card-text">
+            Todos los libros requeridos para preescolar, primaria y secundaria.
+          </p>
+        </div>
+      </div>
+
+      <div class="card" style="width: 18rem">
+        <img
+          src="/images/Literatura_infantil.jpeg"
+          class="card-img-top"
+          alt="Literatura infantil"
+        />
+        <div class="card-body">
+          <h5 class="card-title color-text">Literatura infantil</h5>
+          <p class="card-text">
+            Cuentos y novelas para fomentar el hábito de la lectura
+          </p>
+        </div>
+      </div>
+
+      <div class="card" style="width: 18rem">
+        <img
+          src="/images/Utiles_escolares.jpeg"
+          class="card-img-top"
+          alt="Útiles escolares"
+        />
+        <div class="card-body">
+          <h5 class="card-title color-text">Útiles Escolares</h5>
+          <p class="card-text">
+            Cuadernos, lápices, colores y todo lo necesario para clases
+          </p>
+        </div>
+      </div>
+
+      <div class="card" style="width: 18rem">
+        <img
+          src="/images/papeleria.jpeg"
+          class="card-img-top"
+          alt="Papelería"
+        />
+        <div class="card-body">
+          <h5 class="card-title color-text">Papelería</h5>
+          <p class="card-text">
+            Artículos de oficina, manualidades y papelería en general.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Productos destacados -->
+  <div
+    class="featured bg-third d-flex flex-column align-items-center justify-content-center p-4"
+    style="border: 2px solid #a2c4c9"
+  >
+    <h1 class="color-main-text mb-5">Productos destacados</h1>
+    <div class="d-flex flex-wrap justify-content-center gap-4 mb-4">
+      <div
+        *ngFor="let p of destacados"
+        class="card card-product text-center"
+        style="width: 18rem"
+      >
+        <img [src]="p.img" class="card-img-top" [alt]="p.name" />
+        <div class="card-body">
+          <h5
+            class="card-title color-main-text text-truncate"
+          >
+            {{ p.name }}
+          </h5>
+          <h6 class="text-muted text-truncate text-start">
+            {{ p.marca }}
+          </h6>
+
+          <h3 class="card-text text-start color-main-text mb-3">
+            {{ `S/. ${p.precio | number:'1.2-2'}` }}
+          </h3>
+          <a [routerLink]="['/product', p.id]" class="btn btn-main btn-success w-75"
+            >Agregar al carrito</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Beneficios -->
+  <div class="d-flex flex-column justify-content-center align-items-center">
+    <h1 class="color-text m-5 text-center">¿Por qué comprar con nosotros?</h1>
+    <div class="d-flex flex-wrap justify-content-center gap-4 mb-5">
+      <div class="outline-card text-center" style="width: 25rem">
+        <img
+          src="/images/pedidos_anticipados.jpeg"
+          class="card-img-top mb-3"
+          alt="Pedidos anticipados"
+        />
+        <div class="card-body">
+          <h5 class="card-title color-text mb-2">Pedidos Anticipados</h5>
+          <p class="card-text">
+            Reserva tus libros y útiles con tiempo y recógelos sin filas.
+          </p>
+        </div>
+      </div>
+
+      <div class="outline-card text-center" style="width: 25rem">
+        <img
+          src="/images/envio_a_domicilio.jpeg"
+          class="card-img-top mb-3"
+          alt="Envío a domicilio"
+        />
+        <div class="card-body">
+          <h5 class="card-title color-text mb-2">Envío a domicilio</h5>
+          <p class="card-text">
+            Recibe tus compras en la comodidad de tu hogar
+          </p>
+        </div>
+      </div>
+
+      <div class="outline-card text-center" style="width: 25rem">
+        <img
+          src="/images/descuento_por_registro.jpeg"
+          class="card-img-top mb-3"
+          alt="Descuentos por registro"
+        />
+        <div class="card-body">
+          <h5 class="card-title color-text mb-2">Descuentos por registro</h5>
+          <p class="card-text">Regístrate y obtén promociones exclusivas</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Newsletter -->
+  <div class="header-section">
+    <div class="container">
+      <h2 class="mb-3">Suscríbete a nuestro boletín</h2>
+      <p class="mb-4">
+        Recibe información sobre nuevos productos, promociones exclusivas y
+        consejos útiles para el regreso a clases.
+      </p>
+
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="input-group mb-3">
+            <input
+              type="email"
+              class="form-control"
+              placeholder="Tu correo electrónico"
+            />
+            <button class="btn btn-sec bg-sec text-white" type="button">
+              Suscribirse
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

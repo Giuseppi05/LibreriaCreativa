@@ -1,0 +1,86 @@
+<!-- Overlay (mobile only) -->
+<div
+  #aside
+  class="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-50"
+  [ngClass]="{'d-none': !sidebarVisible, 'd-lg-none': true}"
+  (click)="toggleSidebar()"
+></div>
+
+<!-- Sidebar (visible in desktop always, or toggle in mobile) -->
+<aside
+  class="d-flex flex-column bg-main text-white h-100 position-fixed position-lg-static"
+  [ngClass]="{'show': sidebarVisible || isDesktop}"
+  [style.minWidth.px]="250"
+  [style.width.px]="250"
+>
+  <!-- Sidebar Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4 p-3">
+    <div class="d-flex align-items-center">
+      <i class="fas fa-user-shield fs-4 me-2"></i>
+      <h5 class="mb-0">Admin Panel</h5>
+    </div>
+    <button class="btn d-lg-none" (click)="toggleSidebar()">
+      <i class="fas fa-times text-white"></i>
+    </button>
+  </div>
+
+  <!-- Menu -->
+  <nav class="flex-grow-1 px-3">
+    <ul class="nav flex-column">
+      <li class="nav-item mb-2">
+        <a
+          routerLink="/admin/products"
+          class="nav-link text-white d-flex align-items-center"
+          (click)="closeSidebar()"
+        >
+          <i class="fas fa-box me-2"></i> Productos
+        </a>
+      </li>
+      <li class="nav-item mb-2">
+        <a
+          routerLink="/admin/categories"
+          class="nav-link text-white d-flex align-items-center"
+          (click)="closeSidebar()"
+        >
+          <i class="fas fa-tags me-2"></i> Categorías
+        </a>
+      </li>
+      <li class="nav-item mb-2">
+        <a
+          routerLink="/admin/orders"
+          class="nav-link text-white d-flex align-items-center"
+          (click)="closeSidebar()"
+        >
+          <i class="fas fa-shopping-cart me-2"></i> Pedidos
+        </a>
+      </li>
+      <li class="nav-item mb-2">
+        <a
+          routerLink="/admin/messages"
+          class="nav-link text-white d-flex align-items-center"
+          (click)="closeSidebar()"
+        >
+          <i class="fas fa-envelope me-2"></i> Mensajes
+        </a>
+      </li>
+      <li class="nav-item mb-2">
+        <a
+          routerLink="/admin/coupon"
+          class="nav-link text-white d-flex align-items-center"
+          (click)="closeSidebar()"
+        >
+          <i class="fas fa-ticket me-2"></i> Cupones
+        </a>
+      </li>
+    </ul>
+  </nav>
+</aside>
+
+<!-- Mobile Toggle Button -->
+<button
+  class="btn btn-primary bg-main position-fixed bottom-0 start-0 m-3 d-lg-none"
+  style="z-index: 1050"
+  (click)="toggleSidebar()"
+>
+  <i class="fas fa-bars"></i>
+</button>

@@ -1,0 +1,292 @@
+<div class="container my-5 min-vh-100">
+  <!-- Título -->
+  <div class="d-flex align-items-center mb-4">
+    <i class="fas fa-shopping-bag fa-lg color-main-text me-2"></i>
+    <h2 class="color-main-text mb-0 fw-bold">Mis Pedidos</h2>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="alert alert-danger">
+    <i class="fas fa-exclamation-circle me-2"></i> {{ error }}
+  </div>
+
+  <!-- Sin pedidos -->
+  <div *ngIf="!error && page?.content?.length === 0" class="text-center my-5">
+    <i class="fas fa-box-open fa-3x color-main-text mb-3"></i>
+    <h5 class="color-main-text fw-bold">¡Aún no tienes pedidos!</h5>
+    <p class="text-muted">Cuando compres algo, aparecerán aquí.</p>
+  </div>
+
+  <!-- Acordeón de pedidos -->
+  <div *ngIf="page?.content?.length" class="accordion" id="ordersAccordion">
+    <div
+      *ngFor="let order of page?.content; let i = index"
+      class="accordion-item border-0 mb-3 shadow-sm rounded"
+    >
+      <!-- Cabecera del acordeón -->
+      <h2 class="accordion-header" id="heading{{i}}">
+        <button
+          class="accordion-button collapsed bg-white color-text fw-bold"
+          type="button"
+          data-bs-toggle="collapse"
+          [attr.data-bs-target]="'#collapse'+i"
+          aria-expanded="false"
+          [attr.aria-controls]="'collapse'+i"
+        >
+          <div class="w-100">
+            <div
+              class="d-flex flex-column flex-md-row justify-content-between w-100"
+            >
+              <div class="d-flex align-items-center mb-3 mb-md-0">
+                <i class="fas fa-receipt me-2 color-main-text"></i>
+                Pedido #{{ order.id }}
+              </div>
+              <div
+                class="d-flex flex-column flex-md-row text-muted small ms-2 ms-md-0"
+              >
+                <div class="d-flex align-items-center mb-1 mb-md-0">
+                  <i class="fas fa-calendar-alt me-1"></i>
+                  {{ order.createdAt | date:'mediumDate' }}
+                </div>
+                <div class="d-flex align-items-center mb-1 mb-md-0 ms-md-3">
+                  <i class="fas fa-clock me-1"></i>
+                  {{ order.createdAt | date:'shortTime' }}
+                </div>
+                <div class="fw-bold color-main-text ms-md-3 me-3">
+                  Total: S/. {{ order.total | number:'1.2-2' }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </button>
+      </h2>
+
+      <!-- Cuerpo del acordeón -->
+      <div
+        [id]="'collapse'+i"
+        class="accordion-collapse collapse"
+        [attr.aria-labelledby]="'heading'+i"
+        data-bs-parent="#ordersAccordion"
+      >
+        <div class="accordion-body bg-white">
+          <!-- Encabezados del listado de productos -->
+          <div
+            class="d-none d-md-flex fw-bold text-muted border-bottom pb-2 mb-2"
+          >
+            <div class="flex-grow-1">Producto</div>
+            <div class="text-center" style="width: 80px">Precio</div>
+            <div class="text-center" style="width: 80px">Cantidad</div>
+            <div class="text-end" style="width: 100px">Subtotal</div>
+          </div>
+
+          <!-- Detalle de productos -->
+          <div
+            *ngFor="let detalle of order.detalles"
+            class="d-flex align-items-center border-bottom py-3"
+          >
+            <img
+              [src]="detalle.producto.img"
+              alt="{{detalle.producto.name}}"
+              class="rounded me-3"
+              style="width: 60px; height: 60px; object-fit: cover"
+            />
+            <div class="flex-grow-1">
+              <div class="fw-bold color-text">{{ detalle.producto.name }}</div>
+              <div class="d-md-none text-muted small">
+                Precio: S/. {{ detalle.producto.precio | number:'1.2-2' }}
+              </div>
+            </div>
+            <div
+              class="text-center small d-none d-md-block"
+              style="width: 80px"
+            >
+              S/. {{ detalle.producto.precio | number:'1.2-2' }}
+            </div>
+            <div class="text-center small" style="width: 80px">
+              x{{ detalle.cantidad }}
+            </div>
+            <div class="text-end fw-bold color-main-text" style="width: 100px">
+              S/. {{ detalle.subtotal | number:'1.2-2' }}
+            </div>
+          </div>
+
+          <!-- Totales -->
+          <!-- Detalles del pedido -->
+          <div class="mt-3">
+            <div class="d-flex justify-content-between">
+              <span class="text-muted">Subtotal</span>
+              <span>S/. {{ order.subtotal | number:'1.2-2' }}</span>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <span class="text-muted">Descuento</span>
+              <span
+                >S/. {{ order.descuento ? (order.descuento | number:'1.2-2') :
+                '0.00' }}</span
+              >
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <span class="text-muted">Envío</span>
+              <span>S/. {{ order.envio | number:'1.2-2' }}</span>
+            </div>
+
+            <div
+              class="d-flex justify-content-between fw-bold border-top pt-2 mt-2"
+            >
+              <span class="color-text">Total</span>
+              <span class="color-main-text"
+                >S/. {{ order.total | number:'1.2-2' }}</span
+              >
+            </div>
+          </div>
+          <!-- Sección DETALLES DEL PEDIDO -->
+          <div class="mt-4 p-3 border rounded bg-light">
+            <h6 class="fw-bold color-text mb-3">Detalles del Pedido</h6>
+
+            <dl class="row mb-0">
+              <dt class="col-sm-4 text-muted small">Entrega</dt>
+              <dd class="col-sm-8 mb-2">
+                <span class="text-dark small">
+                  {{ order.direccion ? order.direccion : "Recojo en Tienda - Av.Principal 123 Ciudad, CP 12345" }}
+                </span>
+              </dd>
+
+              <dt class="col-sm-4 text-muted small">Estado</dt>
+              <dd class="col-sm-8 mb-2">
+                <span
+                  class="badge text-white"
+                  [ngClass]="order.estado.name === 'Cancelado' ? 'bg-danger' : 'bg-main'"
+                >
+                  {{ order.estado.name || 'Sin estado' }}
+                </span>
+              </dd>
+
+              <dt class="col-sm-4 text-muted small">Medio de Pago</dt>
+              <dd class="col-sm-8 mb-2">
+                <span class="text-dark small"
+                  >{{ order.payments?.[0]?.tipo | titlecase }}</span
+                >
+              </dd>
+            </dl>
+
+            <div
+              class="alert alert-info d-flex justify-content-between align-items-center mt-2"
+              *ngIf="order.direccion"
+            >
+              <div>
+                <i class="fas fa-info-circle me-2"></i>
+                Todos los productos con envío llegarán a la direccion en un
+                plazo
+                <strong>no mayor a dos días</strong>.
+              </div>
+            </div>
+
+           <!-- Botones de acción -->
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-stretch mt-4 gap-2">
+            <!-- Botón de cancelar -->
+            <div class="flex-fill flex-md-grow-0">
+              <button
+                *ngIf="order.estado.name === 'Pendiente'"
+                class="btn btn-danger w-100"
+                (click)="cancelOrder(order.id)"
+              >
+                <i class="fas fa-times me-2"></i> Cancelar Pedido
+              </button>
+            </div>
+
+            <!-- Botones de comprobante y boleta -->
+            <div class="d-flex flex-column flex-md-row gap-2 flex-fill flex-md-grow-0">
+              <button 
+                *ngIf="order.payments?.[0]?.imgYape" 
+                class="btn btn-sec bg-sec text-white w-100 flex-md-grow-1" 
+                style="min-width: 200px;"
+                (click)="openYapeModal(order.payments?.[0]?.imgYape)"
+              >
+                <i class="fas fa-receipt me-2"></i>
+                Ver Comprobante
+              </button>
+              
+              <a 
+                *ngIf="order.rutaBoleta" 
+                class="btn btn-main text-center w-100 flex-md-grow-1" 
+                style="min-width: 200px;"
+                [href]="order.rutaBoleta" 
+                target="_blank"
+              >
+                <i class="fas fa-file-pdf me-2"></i>
+                Ver Boleta PDF
+              </a>
+            </div>
+
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paginación -->
+  <nav *ngIf="page && page.totalPages > 1" aria-label="Page navigation">
+    <ul class="pagination pagination-custom justify-content-center mt-4">
+      <li class="page-item" [class.disabled]="page.number === 0">
+        <button
+          class="page-link"
+          (click)="cargar(page.number - 1)"
+          [disabled]="page.number === 0"
+        >
+          <i class="fas fa-angle-double-left"></i>
+        </button>
+      </li>
+
+      <li
+        class="page-item"
+        *ngFor="let i of totalPagesArray()"
+        [class.active]="i === page.number"
+      >
+        <button class="page-link" (click)="cargar(i)">{{ i + 1 }}</button>
+      </li>
+
+      <li
+        class="page-item"
+        [class.disabled]="page.number >= page.totalPages - 1"
+      >
+        <button
+          class="page-link"
+          (click)="cargar(page.number + 1)"
+          [disabled]="page.number >= page.totalPages - 1"
+        >
+          <i class="fas fa-angle-double-right"></i>
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Info de página -->
+  <div
+    class="text-center text-muted small mb-3"
+    *ngIf="page && page.content.length > 0"
+  >
+    Mostrando {{ page.content.length }} de {{ page.totalElements }} pedidos.
+    Página {{ page.number + 1 }} de {{ page.totalPages }}.
+  </div>
+</div>
+<app-modal-component
+  *ngIf="(modalService.isOpen$ | async)"
+  [title]="'Comprobante Yape'"
+  (closed)="closeYapeModal()"
+>
+  <div class="text-center">
+    <img
+      [src]="selectedYapeImage"
+      alt="Comprobante Yape"
+      class="img-fluid rounded"
+      style="max-width: 400px; width: 100%; height: auto; object-fit: contain"
+    />
+  </div>
+  <div class="text-end mt-3">
+    <button class="btn btn-sec bg-sec text-white" (click)="closeYapeModal()">
+      Cerrar
+    </button>
+  </div>
+</app-modal-component>

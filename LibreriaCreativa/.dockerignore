@@ -1,0 +1,22 @@
+# Ignorar compilados de Maven
+target/*
+!target/*.jar
+!.mvn/wrapper/maven-wrapper.jar
+
+# Ignorar configuraciones de IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# Ignorar sistema operativo
+.DS_Store
+Thumbs.db
+
+# Ignorar archivos de configuración local
+*.log
+*.tmp
+
+# Ignorar backups
+*~

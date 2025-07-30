@@ -1,0 +1,84 @@
+/* =========================
+   Global
+========================= */
+body {
+    overflow-x: hidden;
+}
+
+:root {
+    --main-color: #45818e;
+    --sec-color: #ff9900;
+    --third-color: #d0e1e4;
+    --text-color: #135173;
+}
+
+/* =========================
+   Colores (Textos y Fondos)
+========================= */
+.color-text {
+    color: var(--text-color) !important;
+}
+
+.color-main-text {
+    color: var(--main-color) !important;
+}
+
+.bg-main {
+    background-color: var(--main-color) !important;
+}
+
+.bg-sec {
+    background-color: var(--sec-color) !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+.bg-third {
+    background-color: var(--third-color) !important;
+}
+
+/* =========================
+   Botones
+========================= */
+.btn-sec:hover {
+    border: 1px solid var(--sec-color) !important;
+    background-color: white !important;
+    color: var(--sec-color) !important;
+    transform: scale(1.005);
+}
+
+.btn-sec:focus{
+    background-color: var(--sec-color) !important;
+    color: white !important;
+}
+
+.btn-main{
+    background-color: var(--main-color) !important;
+    color: white !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+.btn-main:hover{
+    background-color: white !important;
+    color: var(--main-color) !important;
+    border: 1px solid var(--main-color) !important; 
+    transform: scale(1.005);
+}
+
+.btn-main:focus{
+    background-color: var(--main-color) !important;
+    color: white !important;
+}
+
+/* =========================
+   Paginación
+========================= */
+.pagination-custom .page-link {
+    color: var(--main-color);
+    border-color: var(--main-color);
+}
+
+.pagination-custom .page-item.active .page-link {
+    color: white;
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+}

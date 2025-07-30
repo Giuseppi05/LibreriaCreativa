@@ -1,0 +1,124 @@
+<!-- contact.component.html -->
+<div class="card contact-card py-3">
+  <div class="card-body p-4">
+    <h3 class="color-main-text fw-bold mb-4">
+      <i class="fas fa-paper-plane me-2"></i>
+      Envíanos un mensaje
+    </h3>
+
+    <form (ngSubmit)="onSubmit()" #contactForm="ngForm" novalidate>
+      <div class="row g-3">
+        <div class="col-12">
+          <label for="nombre" class="form-label color-text fw-semibold">
+            <i class="fas fa-user me-1"></i>Nombre:
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="nombre"
+            [(ngModel)]="form.name"
+            name="name"
+            placeholder="Tu nombre completo"
+            #nameRef="ngModel"
+            required
+          />
+          <div
+            class="text-danger mt-1"
+            *ngIf="nameRef.invalid && nameRef.touched"
+          >
+            <span *ngIf="nameRef.errors?.['required']"
+              >El nombre es obligatorio.</span
+            >
+          </div>
+        </div>
+
+        <div class="col-12">
+          <label for="email" class="form-label color-text fw-semibold">
+            <i class="fas fa-envelope me-1"></i>Email:
+          </label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            [(ngModel)]="form.email"
+            name="email"
+            placeholder="tu@email.com"
+            email
+            #emailRef="ngModel"
+            required
+          />
+          <div
+            class="text-danger mt-1"
+            *ngIf="emailRef.invalid && emailRef.touched"
+          >
+            <span *ngIf="emailRef.errors?.['required']"
+              >El correo es obligatorio.</span
+            >
+            <span *ngIf="emailRef.errors?.['email']"
+              >Formato de correo inválido.</span
+            >
+          </div>
+        </div>
+
+        <div class="col-12">
+          <label for="asunto" class="form-label color-text fw-semibold">
+            <i class="fas fa-tag me-1"></i>Asunto:
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="asunto"
+            [(ngModel)]="form.affair"
+            name="affair"
+            placeholder="¿En qué podemos ayudarte?"
+            #affairRef="ngModel"
+            required
+          />
+          <div
+            class="text-danger mt-1"
+            *ngIf="affairRef.invalid && affairRef.touched"
+          >
+            <span *ngIf="affairRef.errors?.['required']"
+              >El asunto es obligatorio.</span
+            >
+          </div>
+        </div>
+
+        <div class="col-12">
+          <label for="mensaje" class="form-label color-text fw-semibold">
+            <i class="fas fa-comment me-1"></i>Mensaje:
+          </label>
+          <textarea
+            class="form-control"
+            id="mensaje"
+            rows="5"
+            [(ngModel)]="form.message"
+            name="message"
+            placeholder="Escribe tu mensaje aquí..."
+            #messageRef="ngModel"
+            required
+          ></textarea>
+          <div
+            class="text-danger mt-1"
+            *ngIf="messageRef.invalid && messageRef.touched"
+          >
+            <span *ngIf="messageRef.errors?.['required']"
+              >El mensaje es obligatorio.</span
+            >
+          </div>
+        </div>
+
+        <div class="col-12 d-grid">
+          <button
+            type="submit"
+            class="btn btn-sec bg-sec btn-lg text-white"
+            [disabled]="contactForm.invalid"
+          >
+            <i class="fas fa-paper-plane me-2"></i>
+            Enviar mensaje
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

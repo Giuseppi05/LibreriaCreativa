@@ -1,0 +1,10 @@
+@media (min-width: 992px) {
+  .main-content.with-sidebar {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
+  }
+}
+
+.main-content {
+  transition: margin-left 0.3s ease;
+}

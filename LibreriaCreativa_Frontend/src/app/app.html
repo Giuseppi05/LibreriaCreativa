@@ -1,0 +1,7 @@
+<app-navbar/>
+<app-sidebar-admin *ngIf="isAdmin"/>
+<div class="main-content" [class.with-sidebar]="isAdmin">
+  <router-outlet/>
+</div>
+<app-footer *ngIf="!isAdmin"/>
+<app-loading/>

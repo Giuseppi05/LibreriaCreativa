@@ -1,0 +1,12 @@
+.color-text {
+  color: #333;
+}
+.specification-row {
+  border-left: 3px solid #e9ecef;
+  padding-left: 15px;
+  margin-left: 5px;
+}
+.form-check-input:checked {
+  background-color: var(--main-color);
+  border-color: #0d6efd;
+}
