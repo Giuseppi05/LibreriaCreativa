@@ -27,4 +27,4 @@ WORKDIR /app
 COPY --from=builder /app/target/LibreriaCreativa-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["sh", "-c", "java -jar app.jar --server.port=${PORT:-8080}"]
